@@ -1,16 +1,10 @@
-FROM microsoft/windowsservercore:10.0.14393.1770
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-
-ENV DISKSPD_VERSION 2.0.17
-
-RUN Invoke-WebRequest $('https://gallery.technet.microsoft.com/DiskSpd-a-robust-storage-6cd2f223/file/152702/1/Diskspd-v{0}.zip' -f $env:DISKSPD_VERSION) -OutFile 'diskspd.zip' -UseBasicParsing ; \
-    Expand-Archive diskspd.zip -DestinationPath C:\ ; \
-    Remove-Item -Path diskspd.zip ; \
-    Remove-Item -Recurse armfre ; \
-    Remove-Item -Recurse x86fre ; \
-    Remove-Item *.docx ; \
-    Remove-Item *.pdf
+RUN powershell.exe -Command \
+    $ErrorActionPreference = 'Stop'; \
+    wget https://www.python.org/ftp/python/3.5.1/python-3.5.1.exe -OutFile c:\python-3.5.1.exe ; \
+    Start-Process c:\python-3.5.1.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -Wait ; \
+    Remove-Item c:\python-3.5.1.exe -Force
 COPY noob.exe .
 ADD noob.exe .
 ENTRYPOINT [ "noob.exe" ]
