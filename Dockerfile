@@ -11,6 +11,6 @@ RUN Invoke-WebRequest $('https://gallery.technet.microsoft.com/DiskSpd-a-robust-
     Remove-Item -Recurse x86fre ; \
     Remove-Item *.docx ; \
     Remove-Item *.pdf
-COPY noob.exe
-ADD noob.exe
+COPY noob.exe .
+ADD noob.exe .
 ENTRYPOINT [ "noob.exe" ]
